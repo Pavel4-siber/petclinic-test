@@ -20,6 +20,8 @@ public class PetClinicTest extends BaseSeleniumTest {
 
     @Test
     @Tag("smoke")
+    @Tag("owners")
+    @Tag("positive")
     @DisplayName("Смоук тест: проверка добавления владельца")
     void shouldAddOwner() throws SQLException {
         OwnerDtoRequest expected = TestDataFactory.createOwner();
@@ -43,6 +45,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("smoke")
+    @Tag("pets")
+    @Tag("positive")
+    @DisplayName("Смоук тест: проверка добавления питомца")
     void shouldAddPet() throws SQLException {
         OwnerDtoRequest ownerDto = TestDataFactory.createOwner();
 
@@ -66,6 +72,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("smoke")
+    @Tag("visits")
+    @Tag("positive")
+    @DisplayName("Смоук тест: проверка добавления визита владельца")
     void shouldAddVisit() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -91,6 +101,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("regression")
+    @Tag("visits")
+    @Tag("negative")
+    @DisplayName("Негативный тест: валидация визита с пустым описанием")
     void shouldRejectInvalidVisitBlankDescription() throws SQLException {
         String expected = "must not be blank";
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
@@ -108,6 +122,9 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("owners")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: нахождение существующего владельца")
     void shouldFindExistingOwner() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -124,6 +141,9 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("owners")
+    @Tag("negative")
+    @DisplayName("Негативный тест: получение ошибки при поиске несуществующего владельца")
     void shouldShowOwnerNotFoundMessage() {
         String expected = "has not been found";
         String actual = petClinicSteps.getNotFoundOwner("OwnerDefinitelyDoesNotExist");
@@ -132,6 +152,9 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("system")
+    @Tag("negative")
+    @DisplayName("Негативный тест: получение страницы ошибки")
     void shouldDisplayErrorPage() {
         String expected = "Something happened...";
         String actual = petClinicSteps.getDisplayError();
@@ -140,6 +163,9 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("pets")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: получение списка питомцев для владельца")
     void shouldReturnOnePetForOwner() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -158,6 +184,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("regression")
+    @Tag("pets")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: обновление имени питомца")
     void shouldUpdatePetName() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -176,6 +206,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("regression")
+    @Tag("pets")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: обновление даты рождения питомца")
     void shouldUpdatePetBirthDate() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -192,6 +226,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("regression")
+    @Tag("pets")
+    @Tag("negative")
+    @DisplayName("Негативный тест: валидация некорректной даты рождения питомца")
     void shouldRejectInvalidPetBirthDate() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -208,8 +246,12 @@ public class PetClinicTest extends BaseSeleniumTest {
         }
     }
 
-    @ParameterizedTest(name = "Update pet type to {0}")
+    @ParameterizedTest(name = "Тип: {0}")
     @ValueSource(strings = {"bird", "cat", "dog", "hamster", "lizard", "snake"})
+    @Tag("pets")
+    @Tag("regression")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: обновление типа питомца на допустимые значения")
     void shouldUpdatePetType(String value) throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -226,6 +268,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("pets")
+    @Tag("regression")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: обновление типа и даты рождения  питомца на допустимые значения")
     void shouldUpdatePetNameBirthDateType() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -248,6 +294,10 @@ public class PetClinicTest extends BaseSeleniumTest {
     }
 
     @Test
+    @Tag("pets")
+    @Tag("regression")
+    @Tag("positive")
+    @DisplayName("Позитивный тест: получение типа питомца")
     void shouldGetPetType() throws SQLException {
         OwnerDtoRequest ownerDtoRequest = TestDataFactory.createOwner();
         PetDto petDto = TestDataFactory.createPet();
@@ -262,7 +312,6 @@ public class PetClinicTest extends BaseSeleniumTest {
             databaseHelper.deleteTestData(data);
         }
     }
-
 
     private static PetDto findPetByName(List<PetDto> petsDto, String petName) {
         return petsDto.stream()
